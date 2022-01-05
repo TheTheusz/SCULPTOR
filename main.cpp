@@ -164,8 +164,6 @@ int main() {
 	saturno.putSphere(43, 30, 41, 1); // fim foguete
 
 
-
-
-	saturno.writeOFF("escultura.off");
+	saturno.writeOFF((char*)"escultura.off");
 	return 0;
 }
