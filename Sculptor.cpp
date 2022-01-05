@@ -5,7 +5,6 @@
 #include <string>
 #include <math.h>
 
-
 using namespace std;
 
 Sculptor::Sculptor(int _nx, int _ny, int _nz) {
@@ -14,10 +13,10 @@ Sculptor::Sculptor(int _nx, int _ny, int _nz) {
 	ny = _ny;
 	nz = _nz;
 
-	v = new Voxel * *[nx]; // Alocacao dinamica
+	v = new Voxel **[nx]; // Alocacao dinamica
 
 	for (int i = 0; i < nx; i++) {
-		v[i] = new Voxel * [ny];
+		v[i] = new Voxel *[ny];
 	}
 
 	for (int i = 0; i < nx; i++) {
@@ -27,7 +26,7 @@ Sculptor::Sculptor(int _nx, int _ny, int _nz) {
 		}
 	}
 
-	for (int i = 0; i < nx; i++) { // Atribuindo valores
+	for (int i = 0; i < nx; i++) { // Atribuindo valores iniciais
 		for (int j = 0; j < ny; j++) {
 			for (int k = 0; k < nz; k++) {
 				v[i][j][k].isOn = false;
@@ -96,33 +95,29 @@ void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1) {
 
 void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius) {
 
-	int x, y, z;
-
-	for (int x = -radius; x <= radius; x++)
-		for (int y = -radius; y <= radius; y++)
-			for (int z = -radius; z <= radius; z++)
+	for (int i = -radius; i <= radius; i++)
+		for (int j = -radius; j <= radius; j++)
+			for (int k = -radius; k <= radius; k++)
 				// limitando o tamanho da esfera, nao pode ser menor que 0 e nem maior que nx,ny,nz
-				if (((xcenter + x) < 0 || (xcenter + x) >= nx) || ((ycenter + y) < 0 || (ycenter + y) >= ny) || ((zcenter + z) < 0 || (zcenter + z) >= nz)) {
+				if (((xcenter + i) < 0 || (xcenter + i) >= nx) || ((ycenter + j) < 0 || (ycenter + j) >= ny) || ((zcenter + k) < 0 || (zcenter + k) >= nz)) {
 				}
 				else {
-					if (x * x + y * y + z * z < radius * radius)
-						putVoxel(xcenter + x, ycenter + y, zcenter + z);
+					if (i * i + j * j + k * k < radius * radius)
+						putVoxel(xcenter + i, ycenter + j, zcenter + k);
 				}
 }
 
 void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius) {
 
-	int x, y, z;
-
-	for (int x = -radius; x <= radius; x++)
-		for (int y = -radius; y <= radius; y++)
-			for (int z = -radius; z <= radius; z++)
+	for (int i = -radius; i <= radius; i++)
+		for (int j = -radius; j <= radius; j++)
+			for (int k = -radius; k <= radius; k++)
 				// limitando o tamanho da esfera, nao pode ser menor que 0 e nem maior que nx,ny,nz
-				if (((xcenter + x) < 0 || (xcenter + x) >= nx) || ((ycenter + y) < 0 || (ycenter + y) >= ny) || ((zcenter + z) < 0 || (zcenter + z) >= nz)) {
+				if (((xcenter + i) < 0 || (xcenter + i) >= nx) || ((ycenter + j) < 0 || (ycenter + j) >= ny) || ((zcenter + k) < 0 || (zcenter + k) >= nz)) {
 				}
 				else {
-					if (x * x + y * y + z * z < radius * radius)
-						cutVoxel(xcenter + x, ycenter + y, zcenter + z);
+					if (i * i + j * j + k * k < radius * radius)
+						cutVoxel(xcenter + i, ycenter + j, zcenter + k);
 				}
 }
 
